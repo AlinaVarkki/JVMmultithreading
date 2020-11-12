@@ -7,6 +7,8 @@ import java.util.TimerTask;
 public class ThreadInfoPrinter extends Thread{
 
     private int indent = 0;
+
+
     //method that prints info about a ThreadGroup and its threads
     public void printInfo(int format) {
         ThreadGroup[] threadGroups = getAllThreadGroups();
@@ -27,6 +29,20 @@ public class ThreadInfoPrinter extends Thread{
                 break;
             default:
                 System.err.println("Warning: Invalid format value!");
+        }
+    }
+
+    public void startNewThread(){
+        ThreadInfoPrinter tif = new ThreadInfoPrinter();
+        Thread t = new Thread(tif);
+        t.start();
+    }
+
+    public void run(){
+        try {
+            Thread.sleep(100000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 

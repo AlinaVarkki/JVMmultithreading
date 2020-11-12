@@ -10,6 +10,7 @@ public class Main {
                 System.out.println("Enter 1 to see current thread groups and threads infinitely refreshing");
                 System.out.println("Enter 2 to search by thread name");
                 System.out.println("Enter 3 to filter by thread group name");
+                System.out.println("Enter 4 to start a new thread");
 
                 Scanner sc= new Scanner(System.in);
                 String chosenOption = sc.nextLine();
@@ -30,6 +31,9 @@ public class Main {
                         System.out.print("Enter thread group name to filter by: ");
                         String threadGroup = sc.nextLine();
                         threadInfoPrinter.filterByThreadGroup(threadGroup);
+                        break;
+                    case "4":
+                        threadInfoPrinter.startNewThread();
                         break;
                     default:
                         System.out.println("Please enter an option 0-2");
