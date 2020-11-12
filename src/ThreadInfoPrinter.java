@@ -30,6 +30,16 @@ public class ThreadInfoPrinter extends Thread{
         }
     }
 
+    public void searchThreadByName(String name){
+        Thread[] threads = getAllThreads(getRootThreadGroup());
+
+        for(Thread t: threads){
+            if(t.getName().equals(name)){
+                printIndividualThreadInfo(t, 0);
+            }
+        }
+    }
+
     //printing info every 10 seconds
     public void printInfoUpdating(){
         Timer t = new Timer();
