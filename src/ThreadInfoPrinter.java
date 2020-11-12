@@ -33,21 +33,33 @@ public class ThreadInfoPrinter extends Thread{
     public void filterByThreadGroup(String threadGroupName){
 
         Thread[] threads = getAllThreads(getRootThreadGroup());
+        Boolean found = false;
 
         for(Thread t: threads){
             if(t.getThreadGroup().getName().equals(threadGroupName)){
                 printIndividualThreadInfo(t, 0);
+                found = true;
             }
+        }
+
+        if(!found){
+            System.out.println("There is no thread group named " + threadGroupName);
         }
     }
 
     public void searchThreadByName(String threadName){
         Thread[] threads = getAllThreads(getRootThreadGroup());
+        Boolean found = false;
 
         for(Thread t: threads){
             if(t.getName().equals(threadName)){
                 printIndividualThreadInfo(t, 0);
+                found = true;
             }
+        }
+
+        if(!found){
+            System.out.println("There is no thread named " + threadName);
         }
     }
 
