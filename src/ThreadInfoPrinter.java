@@ -1,3 +1,9 @@
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class ThreadInfoPrinter extends Thread{
 
     private int indent = 0;
@@ -22,6 +28,26 @@ public class ThreadInfoPrinter extends Thread{
             default:
                 System.err.println("Warning: Invalid format value!");
         }
+    }
+
+    //printing info every 10 seconds
+    public void printInfoUpdating(){
+        Timer t = new Timer();
+
+        t.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                //adding date to see when it got updated
+                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                Date date = new Date();
+                System.out.println(dateFormat.format(date));
+                System.out.println("Hierarchy Format:\n");
+
+                printInfo(0);
+
+            }
+        }, 0, 10000);
+
     }
 
     private void printHierarchy(ThreadGroup currentGroup, ThreadGroup[] threadGroups, Thread[] threads, int indent){
@@ -86,7 +112,7 @@ public class ThreadInfoPrinter extends Thread{
         return threads;
     }
 
-    public void printIndividualThreadInfo(Thread thread, int indent){
+    private void printIndividualThreadInfo(Thread thread, int indent){
         String threadInfo = "Thread name: "+thread.getName() + "\n" +  " Thread identifier: " + thread.getId() + "\n" +  " Thread stage: " + thread.getState() + "\n" +  " Thread priority: " + thread.getPriority() + "\n" + " This thread is daemon: " + thread.isDaemon();
         System.out.println(threadInfo.indent(indent + 2));
     }
