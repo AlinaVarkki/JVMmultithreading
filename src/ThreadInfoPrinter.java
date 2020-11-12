@@ -30,11 +30,22 @@ public class ThreadInfoPrinter extends Thread{
         }
     }
 
-    public void searchThreadByName(String name){
+    public void filterByThreadGroup(String threadGroupName){
+
         Thread[] threads = getAllThreads(getRootThreadGroup());
 
         for(Thread t: threads){
-            if(t.getName().equals(name)){
+            if(t.getThreadGroup().getName().equals(threadGroupName)){
+                printIndividualThreadInfo(t, 0);
+            }
+        }
+    }
+
+    public void searchThreadByName(String threadName){
+        Thread[] threads = getAllThreads(getRootThreadGroup());
+
+        for(Thread t: threads){
+            if(t.getName().equals(threadName)){
                 printIndividualThreadInfo(t, 0);
             }
         }
