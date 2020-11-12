@@ -1,5 +1,6 @@
 public class ThreadInfoPrinter extends Thread{
 
+    private int indent = 0;
     //method that prints info about a ThreadGroup and its threads
     public void printInfo(int format) {
         ThreadGroup[] threadGroups = getAllThreadGroups();
@@ -7,7 +8,7 @@ public class ThreadInfoPrinter extends Thread{
         switch(format){
             case 0:
                 // Print in hierarchy format, i.e. print thread group with all child threads/thread groups beneath it
-                printHierarchy(threadGroups[0],"",threadGroups,threads);
+                printHierarchy(threadGroups[0],threadGroups,threads, indent);
                 break;
             case 1:
                 // Print in Listed format, i.e. print all thread groups, then all threads
@@ -20,32 +21,28 @@ public class ThreadInfoPrinter extends Thread{
                 break;
             default:
                 System.err.println("Warning: Invalid format value!");
-
-
         }
-
     }
 
-    private void printHierarchy(ThreadGroup currentGroup, String indent, ThreadGroup[] threadGroups, Thread[] threads){
+    private void printHierarchy(ThreadGroup currentGroup, ThreadGroup[] threadGroups, Thread[] threads, int indent){
         //Display current ThreadGroup
-        System.out.println(indent + currentGroup.toString());
-        indent += "\t";
+        System.out.println(currentGroup.toString().indent(indent));
 
         //Display current ThreadGroups threads
         for(Thread t: threads){
             if(t.getThreadGroup().equals(currentGroup)){
-                System.out.println(indent + t.toString());
+                printIndividualThreadInfo(t, indent);
             }
         }
 
+        indent = indent + 10;
         //Display current ThreadGroups child groups and their associated threads
         for(ThreadGroup g: threadGroups){
             if(!g.equals(getRootThreadGroup())){
                 if(g.getParent().equals(currentGroup)){
-                    printHierarchy(g,indent,threadGroups,threads);
+                    printHierarchy(g,threadGroups,threads, indent);
                 }
             }
-
         }
     }
 
@@ -79,7 +76,7 @@ public class ThreadInfoPrinter extends Thread{
         for(int i = 1; i < threadGroupsAfterRoot.length + 1; i++){
             allThreadGroups[i] = threadGroupsAfterRoot[i-1];
         }
-        
+
         return allThreadGroups;
     }
 
@@ -87,5 +84,10 @@ public class ThreadInfoPrinter extends Thread{
         Thread[] threads = new Thread[rootThreadGroup.activeCount()];
         rootThreadGroup.enumerate(threads);
         return threads;
+    }
+
+    public void printIndividualThreadInfo(Thread thread, int indent){
+        String threadInfo = "Thread name: "+thread.getName() + "\n" +  " Thread identifier: " + thread.getId() + "\n" +  " Thread stage: " + thread.getState() + "\n" +  " Thread priority: " + thread.getPriority() + "\n" + " This thread is daemon: " + thread.isDaemon();
+        System.out.println(threadInfo.indent(indent + 2));
     }
 }
