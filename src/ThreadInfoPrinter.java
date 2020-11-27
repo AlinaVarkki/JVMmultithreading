@@ -1,3 +1,5 @@
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeModel;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -7,6 +9,8 @@ import java.util.TimerTask;
 public class ThreadInfoPrinter extends Thread{
 
     private int indent = 0;
+
+
 
 
     //method that prints info about a ThreadGroup and its threads
@@ -32,15 +36,17 @@ public class ThreadInfoPrinter extends Thread{
         }
     }
 
-    public void startNewThread(){
+    public void startNewThread(String name){
         ThreadInfoPrinter tif = new ThreadInfoPrinter();
-        Thread t = new Thread(tif);
+        Thread t = new Thread(tif,name);
         t.start();
     }
 
     public void run(){
         try {
-            Thread.sleep(100000);
+            System.out.println("I'm going to sleep");
+            Thread.sleep(10000);
+            System.out.println("I'm alive!");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

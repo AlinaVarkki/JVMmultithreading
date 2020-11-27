@@ -1,7 +1,10 @@
 import java.util.Scanner;
 
-public class Main {
+
+public class ConsoleMain {
     public static void main(String[] args) {
+
+
 
         ThreadInfoPrinter threadInfoPrinter = new ThreadInfoPrinter();
 
@@ -33,7 +36,7 @@ public class Main {
                         threadInfoPrinter.filterByThreadGroup(threadGroup);
                         break;
                     case "4":
-                        threadInfoPrinter.startNewThread();
+                        threadInfoPrinter.startNewThread("TestThread");
                         break;
                     default:
                         System.out.println("Please enter an option 0-2");
@@ -42,5 +45,7 @@ public class Main {
         }
 
     }
+
+
 
 }
